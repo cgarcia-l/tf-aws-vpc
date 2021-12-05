@@ -1,7 +1,7 @@
 name: Terraform
 on:
   push:
-    branches: [ test-action ]
+    branches: [ main ]
   pull_request:
 
 jobs:
