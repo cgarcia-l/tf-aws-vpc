@@ -7,22 +7,23 @@ locals {
 # VPC
 ################################################################################
 resource "aws_vpc" "this" {
-  cidr_block                        = var.cidr
-  instance_tenancy                  = var.instance_tenancy
+  cidr_block                       = var.cidr
+  instance_tenancy                 = var.instance_tenancy
   ipv4_ipam_pool_id                = var.ipv4_ipam_pool_id
-  enable_dns_hostnames              = var.enable_dns_hostnames
-  enable_dns_support                = var.enable_dns_support
-  enable_classiclink                = var.enable_classiclink
-  enable_classiclink_dns_support    = var.enable_classiclink_dns_support
-  assign_generated_ipv6_cidr_block  = var.assign_generated_ipv6_cidr_block
+  enable_dns_hostnames             = var.enable_dns_hostnames
+  enable_dns_support               = var.enable_dns_support
+  enable_classiclink               = var.enable_classiclink
+  enable_classiclink_dns_support   = var.enable_classiclink_dns_support
+  assign_generated_ipv6_cidr_block = var.assign_generated_ipv6_cidr_block
 
   tags = merge({ "Name" = format("%s", var.name) }, var.tags)
 }
 
 resource "aws_vpc_ipv4_cidr_block_association" "this" {
+  count      = length(var.secondary_cidr_blocks) > 0 ? length(var.secondary_cidr_blocks) : 0
+
   vpc_id     = aws_vpc.this.id
   cidr_block = element(var.secondary_cidr_blocks, count.index)
-  count      = length(var.secondary_cidr_blocks) > 0 ? length(var.secondary_cidr_blocks) : 0
 }
 
 resource "aws_default_security_group" "this" {
@@ -117,8 +118,8 @@ resource "aws_subnet" "private" {
 resource "aws_eip" "nat_gateway" {
   count = var.enable_nat_gateway ? local.nat_gateway_count : 0
 
-  vpc  = true
-  tags = merge({ "Name" = format("natgw-%s-%s", var.name, element(var.azs, var.single_nat_gateway ? 0 : count.index)) }, var.tags)
+  vpc   = true
+  tags  = merge({ "Name" = format("natgw-%s-%s", var.name, element(var.azs, var.single_nat_gateway ? 0 : count.index)) }, var.tags)
 }
 
 resource "aws_nat_gateway" "this" {
