@@ -1,6 +1,6 @@
 # tf-aws-vpc
 
-![Terraform version](https://img.shields.io/badge/terraform-0.13.1-brightgreen.svg?style=plastic)](https://github.com/hashicorp/terraform/blob/v0.13.1/CHANGELOG.md)
+[![Terraform version](https://img.shields.io/badge/terraform-0.13.1-brightgreen.svg?style=plastic)](https://github.com/hashicorp/terraform/blob/v0.13.1/CHANGELOG.md)
 
 Terraform module which creates VPC resources on AWS.
 
