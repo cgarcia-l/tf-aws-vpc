@@ -192,3 +192,173 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "default_network_acl_name" {
+  description = "Name to be used on the Default Network ACL"
+  type        = string
+  default     = ""
+}
+
+variable "public_dedicated_network_acl" {
+  description = "Whether to use dedicated network ACL (not default) and custom rules for public subnets"
+  type        = bool
+  default     = true
+}
+
+variable "private_dedicated_network_acl" {
+  description = "Whether to use dedicated network ACL (not default) and custom rules for private subnets"
+  type        = bool
+  default     = true
+}
+
+variable "default_network_acl_ingress" {
+  description = "List of maps of ingress rules to set on the Default Network ACL"
+  type        = list(map(string))
+
+  default = [
+    {
+      rule_no    = 100
+      action     = "allow"
+      from_port  = 0
+      to_port    = 0
+      protocol   = "-1"
+      cidr_block = "0.0.0.0/0"
+      icmp_code  = 0
+      icmp_type  = 0
+    },
+    {
+      rule_no         = 101
+      action          = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
+    },
+  ]
+}
+
+variable "default_network_acl_egress" {
+  description = "List of maps of egress rules to set on the Default Network ACL"
+  type        = list(map(string))
+
+  default = [
+    {
+      rule_no    = 100
+      action     = "allow"
+      from_port  = 0
+      to_port    = 0
+      protocol   = "-1"
+      cidr_block = "0.0.0.0/0"
+      icmp_code  = 0
+      icmp_type  = 0
+    },
+    {
+      rule_no         = 101
+      action          = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
+    },
+  ]
+}
+
+variable "public_inbound_acl_rules" {
+  description = "Public subnets inbound network ACLs"
+  type        = list(map(string))
+
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+}
+
+variable "public_outbound_acl_rules" {
+  description = "Public subnets outbound network ACLs"
+  type        = list(map(string))
+
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+}
+
+variable "private_inbound_acl_rules" {
+  description = "Private subnets inbound network ACLs"
+  type        = list(map(string))
+
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+}
+
+variable "private_outbound_acl_rules" {
+  description = "Private subnets outbound network ACLs"
+  type        = list(map(string))
+
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+}
+
+variable "enable_dhcp_options" {
+  description = "Should be true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type"
+  type        = bool
+  default     = false
+}
+
+variable "dhcp_options_domain_name" {
+  description = "Specifies DNS name for DHCP options set (requires enable_dhcp_options set to true)"
+  type        = string
+  default     = ""
+}
+
+variable "dhcp_options_domain_name_servers" {
+  description = "Specify a list of DNS server addresses for DHCP options set, default to AWS provided (requires enable_dhcp_options set to true)"
+  type        = list(string)
+  default     = ["AmazonProvidedDNS"]
+}
+
+variable "dhcp_options_ntp_servers" {
+  description = "Specify a list of NTP servers for DHCP options set (requires enable_dhcp_options set to true)"
+  type        = list(string)
+  default     = []
+}
+
+variable "dhcp_options_netbios_name_servers" {
+  description = "Specify a list of netbios servers for DHCP options set (requires enable_dhcp_options set to true)"
+  type        = list(string)
+  default     = []
+}
+
+variable "dhcp_options_netbios_node_type" {
+  description = "Specify netbios node_type for DHCP options set (requires enable_dhcp_options set to true)"
+  type        = string
+  default     = ""
+}
