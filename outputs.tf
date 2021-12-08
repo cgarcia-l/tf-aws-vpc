@@ -118,26 +118,6 @@ output "private_route_table_ids" {
   value       = aws_route_table.private.*.id
 }
 
-output "public_internet_gateway_route_id" {
-  description = "ID of the internet gateway route."
-  value       = concat(aws_route.public_internet_gateway.*.id, [""])[0]
-}
-
-output "public_internet_gateway_ipv6_route_id" {
-  description = "ID of the IPv6 internet gateway route."
-  value       = concat(aws_route.public_internet_gateway_ipv6.*.id, [""])[0]
-}
-
-output "private_nat_gateway_route_ids" {
-  description = "List of IDs of the private nat gateway route."
-  value       = aws_route.private_nat_gateway.*.id
-}
-
-output "private_ipv6_egress_route_ids" {
-  description = "List of IDs of the ipv6 egress route."
-  value       = aws_route.private_ipv6_egress.*.id
-}
-
 output "private_route_table_association_ids" {
   description = "List of IDs of the private route table association"
   value       = aws_route_table_association.private.*.id
@@ -155,12 +135,12 @@ output "dhcp_options_id" {
 
 output "nat_ids" {
   description = "List of allocation ID of Elastic IPs created for AWS NAT Gateway"
-  value       = aws_eip.nat.*.id
+  value       = aws_eip.nat_gateway.*.id
 }
 
 output "nat_public_ips" {
   description = "List of public Elastic IPs created for AWS NAT Gateway"
-  value       = var.reuse_nat_ips ? var.external_nat_ips : aws_eip.nat.*.public_ip
+  value       = aws_eip.nat_gateway.*.public_ip
 }
 
 output "natgw_ids" {
@@ -176,11 +156,6 @@ output "igw_id" {
 output "igw_arn" {
   description = "The ARN of the Internet Gateway"
   value       = concat(aws_internet_gateway.this.*.arn, [""])[0]
-}
-
-output "egress_only_internet_gateway_id" {
-  description = "The ID of the egress only Internet Gateway"
-  value       = concat(aws_egress_only_internet_gateway.this.*.id, [""])[0]
 }
 
 output "public_network_acl_id" {
