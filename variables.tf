@@ -115,6 +115,18 @@ variable "public_subnets" {
   default     = []
 }
 
+variable "public_subnet_map" {
+  description = "A list of public subnets inside the VPC"
+  type        = map(any)
+  default     = {}
+}
+
+variable "private_subnet_map" {
+  description = "A list of public subnets inside the VPC"
+  type        = map(any)
+  default     = {}
+}
+
 variable "private_subnets" {
   description = "A list of private subnets inside the VPC"
   type        = list(string)
